@@ -4,20 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>David & Dennis — Nuestra boda</title>
+<meta name="description" content="Invitación de boda de David & Dennis — Sábado 27 de noviembre, 2027, Guadalajara, Jalisco.">
 <meta name="theme-color" content="#1B2A44">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231B2A44'/%3E%3Ccircle cx='32' cy='32' r='27' fill='none' stroke='%23C97C4F' stroke-width='2'/%3E%3Ctext x='32' y='40' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='22' fill='%23C97C4F'%3ED%26D%3C/text%3E%3C/svg%3E">
 
 <meta property="og:title" content="David & Dennis — Nos casamos">
 <meta property="og:description" content="Sábado 27 de noviembre, 2027 · Guadalajara, Jal. Toca para ver todos los detalles y confirmar tu asistencia.">
-<meta property="og:image" content="https://i.postimg.cc/FsBVYTG0/preview-jpg.jpg">
+<meta property="og:image" content="https://drodcast.github.io/Invitacion_Boda/preview.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:url" content="https://drodcast.github.io/PPP.3/">
+<meta property="og:url" content="https://drodcast.github.io/Invitacion_Boda/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="David & Dennis — Nos casamos">
 <meta name="twitter:description" content="Sábado 27 de noviembre, 2027 · Guadalajara, Jal.">
-<meta name="twitter:image" content="https://i.postimg.cc/FsBVYTG0/preview-jpg.jpg">
+<meta name="twitter:image" content="https://drodcast.github.io/Invitacion_Boda/preview.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,600&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">
@@ -271,6 +272,7 @@
   }
 
   @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
     .reveal{transition:none; opacity:1; transform:none;}
     .sello{animation:none;}
     .player .track-title.scrolling span{animation:none;}
@@ -282,7 +284,7 @@
 <div class="player" id="playerBox">
   <button class="collapse-btn" id="collapseBtn" aria-label="Ocultar portada" title="Ocultar portada">▲</button>
   <div class="cover" id="playerCover">🎵</div>
-  <div class="track-title" id="playerTitle"><span id="playerTitleText">Toca play</span></div>
+  <div class="track-title" id="playerTitle"><span id="playerTitleText">Say Yes To Heaven — Lana Del Rey</span></div>
   <div class="controls-row">
     <div class="vol-wrapper" id="volWrapper">
       <button id="volBtn" aria-label="Silenciar">🔊</button>
@@ -296,6 +298,7 @@
 </div>
 <audio id="bgMusic"></audio>
 
+<main>
 <section class="hero">
   <div class="sello">D&D</div>
   <div class="eyebrow">Nos casamos</div>
@@ -472,6 +475,8 @@
   </div>
 </section>
 
+</main>
+
 <footer>
   <div class="script">David & Dennis</div>
   <p>27 · 11 · 2027 &nbsp;·&nbsp; CON TODO NUESTRO CARIÑO, GRACIAS POR SER PARTE DE ESTO</p>
@@ -526,7 +531,7 @@ document.querySelectorAll('.outfit[data-panel]').forEach(card=>{
 // Agrega más canciones aquí (cover es opcional; si lo dejas vacío se muestra un ícono).
 const playlist = [
   { title: "Say Yes To Heaven — Lana Del Rey", src: "say-yes-to-heaven.mp3", cover: "say-yes-to-heaven.jpg" },
-  { title: "Those Eyes — New West", src: "Those Eyes.mp3", cover: "those-eyes.jpg" },
+  { title: "Those Eyes — New West", src: "Those%20Eyes.mp3", cover: "those-eyes.jpg" },
   { title: "Lay Me Down — Sam Smith", src: "Lay-Me-Down.mp3", cover: "Lay-Me-Down.jpg" }
 ];
 
