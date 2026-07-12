@@ -46,12 +46,33 @@
   .flourish{display:block; margin:0 auto 18px; opacity:0.85;}
   .linea{width:70px; height:1px; margin:24px auto;}
 
+  .player-wrap{
+    position:fixed; bottom:38px; right:20px; z-index:500;
+  }
+  .fold-tab{
+    position:absolute; top:-11px; right:-11px; z-index:3;
+    width:22px; height:22px; padding:0; border:1px solid var(--marfil); border-radius:50%; cursor:pointer;
+    background:var(--terracota); color:var(--navy); font-size:0.65rem;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 3px 8px rgba(0,0,0,0.3);
+    transition:transform 0.15s ease;
+  }
+  .fold-tab:hover{transform:scale(1.12);}
   .player{
-    position:fixed; bottom:22px; right:22px; z-index:500;
     background:var(--navy); border:1px solid var(--terracota);
-    border-radius:12px; padding:10px; width:130px;
+    border-radius:12px; padding:8px; width:108px; position:relative;
     box-shadow:0 8px 22px rgba(0,0,0,0.35);
   }
+  .player.oculto{display:none;}
+  .img-toggle{
+    position:absolute; top:-9px; left:-9px; z-index:2;
+    width:18px; height:18px; padding:0; font-size:0.55rem;
+    color:var(--navy); background:var(--sage-claro); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25);
+  }
+  .img-toggle:hover{background:var(--marfil);}
+  .player.sin-imagen .cover{display:none;}
   .player .cover{
     width:100%; aspect-ratio:1; border-radius:8px;
     background:var(--burgundy); display:flex; align-items:center; justify-content:center;
@@ -59,8 +80,8 @@
   }
   .player .cover img{width:100%; height:100%; object-fit:cover;}
   .player .track-title{
-    color:var(--marfil); font-size:0.7rem; font-weight:600; text-align:center;
-    overflow:hidden; white-space:nowrap; margin-bottom:8px; position:relative;
+    color:var(--marfil); font-size:0.62rem; font-weight:600; text-align:center;
+    overflow:hidden; white-space:nowrap; margin-bottom:6px; position:relative;
   }
   .player .track-title span{display:inline-block;}
   .player .track-title.scrolling span{
@@ -74,12 +95,12 @@
   .player button{
     background:none; border:none; color:var(--marfil); cursor:pointer;
     display:flex; align-items:center; justify-content:center;
-    width:26px; height:26px; font-size:0.85rem; border-radius:50%;
+    width:22px; height:22px; font-size:0.78rem; border-radius:50%;
     transition:background 0.15s;
   }
   .player button:hover{background:rgba(255,255,255,0.08);}
   .player .play-pause{
-    width:34px; height:34px; background:var(--terracota); color:var(--navy); font-size:0.9rem;
+    width:30px; height:30px; background:var(--terracota); color:var(--navy); font-size:0.82rem;
   }
   .player .play-pause:hover{background:var(--rust);}
   .vol-wrapper{position:relative; padding-top:70px; margin-top:-70px;}
@@ -98,12 +119,6 @@
   .vol-slider::-webkit-slider-thumb{
     -webkit-appearance:none; width:12px; height:12px; border-radius:50%;
     background:var(--marfil); border:1px solid var(--terracota); cursor:pointer;
-  }
-  .player.compacto .cover{display:none;}
-  .player.compacto{width:auto; min-width:150px;}
-  .player .collapse-btn{
-    position:absolute; top:4px; right:6px; width:16px; height:16px;
-    font-size:0.6rem; color:var(--sage-claro); opacity:0.6;
   }
 
   section{padding:100px 20px; text-align:center; position:relative;}
@@ -203,8 +218,16 @@
     font-family:'EB Garamond'; font-weight:400; font-size:0.88rem; color:#4a4034;
   }
   .outfit{cursor:pointer;}
+  .tap-badge{
+    display:inline-block; margin-top:12px; padding:5px 14px;
+    border:1px solid var(--rust); color:var(--rust); font-size:0.72rem;
+    font-weight:600; letter-spacing:0.5px; border-radius:20px;
+    transition:background 0.2s, color 0.2s;
+  }
+  .outfit:hover .tap-badge{background:var(--rust); color:white;}
+  .outfit.activo .tap-badge{background:var(--burgundy); border-color:var(--burgundy); color:white;}
   .outfit.activo{border-color:var(--burgundy); background:white; box-shadow:0 12px 26px rgba(27,42,68,0.15);}
-  .outfit.activo figcaption::after{content:" ▾"; color:var(--rust);}
+  .outfit.activo figcaption{color:var(--burgundy);}
   .hint{font-size:0.82rem; color:var(--sage); font-style:italic; letter-spacing:0;}
   .outfit-panel{
     display:none; max-width:820px; margin:26px auto 0;
@@ -262,7 +285,9 @@
     .rsvp-card, .datos-banco{padding:28px 22px;}
     .tiendas{gap:8px;}
     .tiendas a{font-size:0.72rem; padding:6px 10px;}
-    .player{width:112px; padding:8px; bottom:14px; right:14px;}
+    .player{width:96px; padding:7px;}
+    .player-wrap{bottom:30px; right:14px;}
+    .fold-tab{width:28px; height:28px; top:-12px; right:-12px; font-size:0.8rem;}
     .player .track-title{font-size:0.65rem;}
     .player button{width:24px; height:24px; font-size:0.78rem;}
     .player .play-pause{width:32px; height:32px;}
@@ -281,19 +306,22 @@
 </head>
 <body>
 
-<div class="player" id="playerBox">
-  <button class="collapse-btn" id="collapseBtn" aria-label="Ocultar portada" title="Ocultar portada">▲</button>
-  <div class="cover" id="playerCover">🎵</div>
-  <div class="track-title" id="playerTitle"><span id="playerTitleText">Say Yes To Heaven — Lana Del Rey</span></div>
-  <div class="controls-row">
-    <div class="vol-wrapper" id="volWrapper">
-      <button id="volBtn" aria-label="Silenciar">🔊</button>
-      <div class="vol-popup" id="volPopup">
-        <input type="range" id="volSlider" class="vol-slider" min="0" max="100" value="60">
+<div class="player-wrap">
+  <button class="fold-tab" id="foldTab" aria-label="Ocultar reproductor" title="Ocultar reproductor">✕</button>
+  <div class="player" id="playerBox">
+    <button class="img-toggle" id="imgToggleBtn" aria-label="Ocultar portada" title="Ocultar portada">▲</button>
+    <div class="cover" id="playerCover">🎵</div>
+    <div class="track-title" id="playerTitle"><span id="playerTitleText">Say Yes To Heaven — Lana Del Rey</span></div>
+    <div class="controls-row">
+      <div class="vol-wrapper" id="volWrapper">
+        <button id="volBtn" aria-label="Silenciar">🔊</button>
+        <div class="vol-popup" id="volPopup">
+          <input type="range" id="volSlider" class="vol-slider" min="0" max="100" value="60">
+        </div>
       </div>
+      <button class="play-pause" id="playPauseBtn" aria-label="Reproducir">▶</button>
+      <button id="nextBtn" aria-label="Siguiente canción">⏭</button>
     </div>
-    <button class="play-pause" id="playPauseBtn" aria-label="Reproducir">▶</button>
-    <button id="nextBtn" aria-label="Siguiente canción">⏭</button>
   </div>
 </div>
 <audio id="bgMusic"></audio>
@@ -348,6 +376,7 @@
         <path d="M82,52 L90,105 L82,108 L76,70 Z" fill="#1B2A44"/>
       </svg>
       <figcaption>Ellos<br><span>Traje oscuro, camisa clara,<br>corbata opcional</span></figcaption>
+      <span class="tap-badge" id="badgeEllos">Ver ejemplos ▸</span>
     </figure>
 
     <figure class="outfit reveal" data-panel="panelEllas" role="button" tabindex="0" aria-expanded="false">
@@ -361,6 +390,7 @@
         <path d="M44,88 Q60,96 76,88 L74,84 Q60,92 46,84 Z" fill="#B5541D"/>
       </svg>
       <figcaption>Ellas<br><span>Vestido midi o largo,<br>colores otoñales</span></figcaption>
+      <span class="tap-badge" id="badgeEllas">Ver ejemplos ▸</span>
     </figure>
 
     <figure class="outfit reveal" data-panel="panelPaleta" role="button" tabindex="0" aria-expanded="false">
@@ -372,6 +402,7 @@
         <circle cx="60" cy="152" r="17" fill="#8B9574"/>
       </svg>
       <figcaption>Paleta sugerida<br><span>Navy, burgundy, rust,<br>terracota y sage</span></figcaption>
+      <span class="tap-badge" id="badgePaleta">Ver ejemplos ▸</span>
     </figure>
   </div>
 
@@ -479,7 +510,7 @@
 
 <footer>
   <div class="script">David & Dennis</div>
-  <p>27 · 11 · 2027 &nbsp;·&nbsp; CON TODO NUESTRO CARIÑO, GRACIAS POR SER PARTE DE ESTO</p>
+  <p>27 · 11 · 2027<br>CON TODO NUESTRO CARIÑO, GRACIAS POR SER PARTE DE ESTO</p>
 </footer>
 
 <script>
@@ -510,15 +541,22 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 
 // ---------- Acordeón de código de vestimenta ----------
 document.querySelectorAll('.outfit[data-panel]').forEach(card=>{
+  const badge = card.querySelector('.tap-badge');
   const abrir = ()=>{
     const panel = document.getElementById(card.dataset.panel);
     const yaAbierto = panel.classList.contains('abierto');
     document.querySelectorAll('.outfit-panel').forEach(p=>p.classList.remove('abierto'));
-    document.querySelectorAll('.outfit').forEach(o=>{o.classList.remove('activo'); o.setAttribute('aria-expanded','false');});
+    document.querySelectorAll('.outfit').forEach(o=>{
+      o.classList.remove('activo');
+      o.setAttribute('aria-expanded','false');
+      const b = o.querySelector('.tap-badge');
+      if(b) b.textContent = 'Ver ejemplos ▸';
+    });
     if(!yaAbierto){
       panel.classList.add('abierto');
       card.classList.add('activo');
       card.setAttribute('aria-expanded','true');
+      if(badge) badge.textContent = 'Ocultar ▴';
     }
   };
   card.addEventListener('click', abrir);
@@ -539,14 +577,29 @@ let trackIndex = 0;
 let sonando = false;
 
 const playerBox = document.getElementById('playerBox');
-const collapseBtn = document.getElementById('collapseBtn');
-let compacto = false;
-collapseBtn.addEventListener('click', ()=>{
-  compacto = !compacto;
-  playerBox.classList.toggle('compacto', compacto);
-  collapseBtn.textContent = compacto ? '▼' : '▲';
-  collapseBtn.title = compacto ? 'Mostrar portada' : 'Ocultar portada';
-  if(typeof actualizarMarquee === 'function') setTimeout(actualizarMarquee, 50);
+
+// Control 1: ocultar/mostrar solo la portada (el reproductor se mantiene visible)
+const imgToggleBtn = document.getElementById('imgToggleBtn');
+let sinImagen = false;
+imgToggleBtn.addEventListener('click', ()=>{
+  sinImagen = !sinImagen;
+  playerBox.classList.toggle('sin-imagen', sinImagen);
+  imgToggleBtn.textContent = sinImagen ? '▼' : '▲';
+  imgToggleBtn.title = sinImagen ? 'Mostrar portada' : 'Ocultar portada';
+  imgToggleBtn.setAttribute('aria-label', imgToggleBtn.title);
+  setTimeout(()=>{ if(typeof actualizarMarquee === 'function') actualizarMarquee(); }, 50);
+});
+
+// Control 2: ocultar/mostrar el reproductor completo (la pestaña siempre queda visible para regresarlo)
+const foldTab = document.getElementById('foldTab');
+let jugadorOculto = false;
+foldTab.addEventListener('click', ()=>{
+  jugadorOculto = !jugadorOculto;
+  playerBox.classList.toggle('oculto', jugadorOculto);
+  foldTab.textContent = jugadorOculto ? '♪' : '✕';
+  foldTab.title = jugadorOculto ? 'Mostrar reproductor' : 'Ocultar reproductor';
+  foldTab.setAttribute('aria-label', foldTab.title);
+  if(!jugadorOculto) setTimeout(()=>{ if(typeof actualizarMarquee === 'function') actualizarMarquee(); }, 50);
 });
 
 const audio = document.getElementById('bgMusic');
@@ -564,13 +617,27 @@ function mostrarVolumen(){
 }
 function ocultarVolumenConRetraso(){
   clearTimeout(volHideTimer);
-  volHideTimer = setTimeout(()=>{ volPopup.classList.remove('show'); }, 2500);
+  volHideTimer = setTimeout(()=>{ volPopup.classList.remove('show'); }, 1500);
 }
 volWrapper.addEventListener('mouseenter', mostrarVolumen);
 volWrapper.addEventListener('mouseleave', ocultarVolumenConRetraso);
-volWrapper.addEventListener('touchstart', ()=>{
+volWrapper.addEventListener('touchstart', (e)=>{
+  e.stopPropagation();
   volPopup.classList.contains('show') ? ocultarVolumenConRetraso() : mostrarVolumen();
 });
+// Se cierra de inmediato si se toca/hace clic en cualquier otro lugar de la pantalla
+document.addEventListener('click', (e)=>{
+  if(!volWrapper.contains(e.target)){
+    clearTimeout(volHideTimer);
+    volPopup.classList.remove('show');
+  }
+});
+document.addEventListener('touchstart', (e)=>{
+  if(!volWrapper.contains(e.target)){
+    clearTimeout(volHideTimer);
+    volPopup.classList.remove('show');
+  }
+}, {passive:true});
 const cover = document.getElementById('playerCover');
 const titleEl = document.getElementById('playerTitle');
 const titleTextEl = document.getElementById('playerTitleText');
@@ -606,15 +673,17 @@ function cargarTrack(i, autoplay){
 }
 cargarTrack(trackIndex, false);
 
-// ---------- Auto-inicio: la música arranca con la primera interacción del invitado ----------
-// (Los navegadores bloquean el autoplay con sonido; esto lo inicia en el primer toque/clic/scroll.)
+// ---------- Auto-inicio: la música arranca con la primera interacción confiable del invitado ----------
+// Los navegadores solo permiten iniciar audio tras un clic, tecla o toque real (política de seguridad,
+// no se puede evitar). El scroll con rueda del mouse no siempre cuenta como interacción válida, pero
+// lo dejamos como intento adicional sin que bloquee los disparadores confiables si falla.
 function iniciarMusicaAuto(){
   if(sonando) return;
   audio.play().then(()=>{
     sonando = true;
     playPauseBtn.textContent = '⏸';
-  }).catch(()=>{});
-  quitarListenersAuto();
+    quitarListenersAuto();
+  }).catch(()=>{ /* intento fallido: se mantienen los listeners activos para reintentar */ });
 }
 function quitarListenersAuto(){
   ['pointerdown','touchstart','keydown','scroll'].forEach(ev=>
