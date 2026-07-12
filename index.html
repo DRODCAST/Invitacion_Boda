@@ -57,7 +57,15 @@
   .player .cover img{width:100%; height:100%; object-fit:cover;}
   .player .track-title{
     color:var(--marfil); font-size:0.7rem; font-weight:600; text-align:center;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-bottom:8px;
+    overflow:hidden; white-space:nowrap; margin-bottom:8px; position:relative;
+  }
+  .player .track-title span{display:inline-block;}
+  .player .track-title.scrolling span{
+    animation:marquee 5s ease-in-out infinite alternate;
+  }
+  @keyframes marquee{
+    0%, 12%{transform:translateX(0);}
+    88%, 100%{transform:translateX(var(--scroll-x, 0px));}
   }
   .player .controls-row{display:flex; align-items:center; justify-content:space-between;}
   .player button{
@@ -71,13 +79,14 @@
     width:34px; height:34px; background:var(--terracota); color:var(--navy); font-size:0.9rem;
   }
   .player .play-pause:hover{background:var(--rust);}
-  .vol-wrapper{position:relative;}
+  .vol-wrapper{position:relative; padding-top:70px; margin-top:-70px;}
   .vol-popup{
-    position:absolute; bottom:120%; left:50%; transform:translateX(-50%);
+    position:absolute; bottom:70px; left:50%; transform:translateX(-50%);
     background:var(--navy); border:1px solid var(--terracota); border-radius:8px;
-    width:32px; height:96px; display:none; align-items:center; justify-content:center;
+    width:32px; height:96px; display:flex; align-items:center; justify-content:center;
+    opacity:0; visibility:hidden; transition:opacity 0.2s ease;
   }
-  .vol-wrapper:hover .vol-popup{display:flex;}
+  .vol-popup.show{opacity:1; visibility:visible;}
   .vol-slider{
     -webkit-appearance:none; appearance:none;
     width:80px; height:4px; background:var(--terracota); border-radius:2px;
@@ -141,7 +150,16 @@
   .card{
     background:white; border-top:3px solid var(--burgundy);
     padding:36px 28px; width:260px; box-shadow:0 10px 26px rgba(27,42,68,0.08);
+    position:relative; overflow:hidden;
   }
+  .card.agotado{opacity:0.55;}
+  .card.agotado::after{
+    content:"Ya fue regalado";
+    position:absolute; top:14px; right:-32px; background:var(--burgundy); color:var(--marfil);
+    font-size:0.65rem; font-weight:700; letter-spacing:0.5px; padding:4px 34px;
+    transform:rotate(40deg); box-shadow:0 2px 6px rgba(0,0,0,0.2);
+  }
+  .card.agotado a{pointer-events:none; opacity:0.5;}
   .card .icono{font-size:1.4rem; margin-bottom:12px; color:var(--rust);}
   .card h3{font-size:1.25rem; margin-bottom:10px; color:var(--burgundy);}
   .card p{font-size:0.98rem; line-height:1.65; color:#4a4034;}
@@ -151,20 +169,6 @@
     border:1px solid var(--burgundy); font-weight:600; font-size:0.82rem;
     letter-spacing:1px; cursor:pointer; transition:background 0.2s, color 0.2s;
   }
-  .btn:hover{background:var(--burgundy); color:var(--marfil);}
-
-  .galeria{background:var(--sage-claro); color:var(--navy);}
-  .galeria .linea{background:var(--sage);}
-  .grid-fotos{
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-    gap:18px; max-width:760px; margin:0 auto;
-  }
-  .foto-slot{
-    aspect-ratio:1; border:1px solid var(--sage);
-    display:flex; align-items:center; justify-content:center;
-    font-size:0.85rem; padding:10px; text-align:center; color:#5f6852; background:rgba(255,255,255,0.4);
-  }
-
   .regalos{background:var(--sage-claro); color:var(--navy);}
   .regalos .linea{background:var(--sage);}
   .regalos-intro{max-width:520px; margin:0 auto 40px; line-height:1.6; color:#4a4034; font-size:1.02rem;}
@@ -197,6 +201,25 @@
   footer .script{font-size:1.7rem; color:var(--terracota);}
   footer p{margin-top:10px; opacity:0.65; font-size:0.8rem; letter-spacing:1px;}
 
+  @media (max-width:600px){
+    section{padding:64px 18px;}
+    .hero{padding:56px 18px 76px;}
+    .sello{width:80px; height:80px; font-size:1.3rem;}
+    .cards{gap:18px;}
+    .card{width:100%; max-width:320px; padding:30px 24px;}
+    .grid-fotos{gap:12px;}
+    .rsvp-card, .datos-banco{padding:28px 22px;}
+    .tiendas{gap:8px;}
+    .tiendas a{font-size:0.72rem; padding:6px 10px;}
+    .player{width:112px; padding:8px; bottom:14px; right:14px;}
+    .player .track-title{font-size:0.65rem;}
+    .player button{width:24px; height:24px; font-size:0.78rem;}
+    .player .play-pause{width:32px; height:32px;}
+    .countdown{gap:10px;}
+    .countdown .box{padding:12px 14px; min-width:66px;}
+    .countdown .num{font-size:1.5rem;}
+  }
+
   @media (prefers-reduced-motion: reduce){
     .reveal{transition:none; opacity:1; transform:none;}
   }
@@ -207,11 +230,11 @@
 <div class="player" id="playerBox">
   <button class="collapse-btn" id="collapseBtn" aria-label="Ocultar portada" title="Ocultar portada">▲</button>
   <div class="cover" id="playerCover">🎵</div>
-  <div class="track-title" id="playerTitle">Toca play</div>
+  <div class="track-title" id="playerTitle"><span id="playerTitleText">Toca play</span></div>
   <div class="controls-row">
-    <div class="vol-wrapper">
+    <div class="vol-wrapper" id="volWrapper">
       <button id="volBtn" aria-label="Silenciar">🔊</button>
-      <div class="vol-popup">
+      <div class="vol-popup" id="volPopup">
         <input type="range" id="volSlider" class="vol-slider" min="0" max="100" value="60">
       </div>
     </div>
@@ -256,20 +279,6 @@
       <p>Formal / Cocktail<br>Se sugiere evitar el color blanco</p>
       <a class="btn" href="https://www.labastilla.com/blog/codigo-vestimenta-dress-code-boda-2025" target="_blank" rel="noopener">Ver ejemplos de outfits</a>
     </div>
-  </div>
-</section>
-
-<section class="galeria">
-  <svg class="flourish" width="120" height="30" viewBox="0 0 120 30"><path d="M10,15 C30,0 50,30 60,15 C70,0 90,30 110,15" stroke="#8B9574" stroke-width="1.5" fill="none"/></svg>
-  <h2 class="reveal">Momentos</h2>
-  <div class="linea"></div>
-  <div class="grid-fotos">
-    <div class="foto-slot reveal">Foto 1<br>(reemplázala con tu imagen)</div>
-    <div class="foto-slot reveal">Foto 2</div>
-    <div class="foto-slot reveal">Foto 3</div>
-    <div class="foto-slot reveal">Foto 4</div>
-    <div class="foto-slot reveal">Foto 5</div>
-    <div class="foto-slot reveal">Foto 6</div>
   </div>
 </section>
 
@@ -365,6 +374,7 @@ collapseBtn.addEventListener('click', ()=>{
   playerBox.classList.toggle('compacto', compacto);
   collapseBtn.textContent = compacto ? '▼' : '▲';
   collapseBtn.title = compacto ? 'Mostrar portada' : 'Ocultar portada';
+  if(typeof actualizarMarquee === 'function') setTimeout(actualizarMarquee, 50);
 });
 
 const audio = document.getElementById('bgMusic');
@@ -372,17 +382,49 @@ const playPauseBtn = document.getElementById('playPauseBtn');
 const nextBtn = document.getElementById('nextBtn');
 const volBtn = document.getElementById('volBtn');
 const volSlider = document.getElementById('volSlider');
+const volWrapper = document.getElementById('volWrapper');
+const volPopup = document.getElementById('volPopup');
+
+let volHideTimer = null;
+function mostrarVolumen(){
+  clearTimeout(volHideTimer);
+  volPopup.classList.add('show');
+}
+function ocultarVolumenConRetraso(){
+  clearTimeout(volHideTimer);
+  volHideTimer = setTimeout(()=>{ volPopup.classList.remove('show'); }, 2500);
+}
+volWrapper.addEventListener('mouseenter', mostrarVolumen);
+volWrapper.addEventListener('mouseleave', ocultarVolumenConRetraso);
+volWrapper.addEventListener('touchstart', ()=>{
+  volPopup.classList.contains('show') ? ocultarVolumenConRetraso() : mostrarVolumen();
+});
 const cover = document.getElementById('playerCover');
 const titleEl = document.getElementById('playerTitle');
+const titleTextEl = document.getElementById('playerTitleText');
 
 audio.volume = 0.6;
 let volumenPrevio = 0.6;
 
+function actualizarMarquee(){
+  requestAnimationFrame(()=>{
+    const overflow = titleTextEl.scrollWidth - titleEl.clientWidth;
+    if(overflow > 4){
+      titleEl.style.setProperty('--scroll-x', `-${overflow + 6}px`);
+      titleEl.classList.add('scrolling');
+    } else {
+      titleEl.classList.remove('scrolling');
+      titleEl.style.removeProperty('--scroll-x');
+    }
+  });
+}
+
 function cargarTrack(i, autoplay){
   const track = playlist[i];
   audio.src = track.src;
-  titleEl.textContent = track.title;
+  titleTextEl.textContent = track.title;
   cover.innerHTML = track.cover ? `<img src="${track.cover}" alt="">` : '🎵';
+  actualizarMarquee();
   if(autoplay){
     audio.play().then(()=>{
       sonando = true;
