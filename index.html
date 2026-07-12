@@ -87,9 +87,11 @@
     -webkit-appearance:none; width:12px; height:12px; border-radius:50%;
     background:var(--marfil); border:1px solid var(--terracota); cursor:pointer;
   }
-  .vol-slider::-moz-range-thumb{
-    width:12px; height:12px; border-radius:50%;
-    background:var(--marfil); border:1px solid var(--terracota); cursor:pointer;
+  .player.compacto .cover{display:none;}
+  .player.compacto{width:auto; min-width:150px;}
+  .player .collapse-btn{
+    position:absolute; top:4px; right:6px; width:16px; height:16px;
+    font-size:0.6rem; color:var(--sage-claro); opacity:0.6;
   }
 
   section{padding:100px 20px; text-align:center; position:relative;}
@@ -163,32 +165,31 @@
     font-size:0.85rem; padding:10px; text-align:center; color:#5f6852; background:rgba(255,255,255,0.4);
   }
 
+  .regalos{background:var(--sage-claro); color:var(--navy);}
+  .regalos .linea{background:var(--sage);}
+  .regalos-intro{max-width:520px; margin:0 auto 40px; line-height:1.6; color:#4a4034; font-size:1.02rem;}
+  .tiendas{display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:16px;}
+  .tiendas a{
+    font-size:0.78rem; font-weight:600; color:var(--burgundy);
+    border:1px solid var(--burgundy); padding:6px 12px; text-decoration:none;
+    transition:background 0.2s, color 0.2s;
+  }
+  .tiendas a:hover{background:var(--burgundy); color:var(--marfil);}
+  .datos-banco{
+    background:var(--marfil); border:1px dashed var(--rust);
+    padding:14px; font-size:0.9rem; line-height:1.7; margin-top:6px;
+  }
+
   .rsvp{background:var(--burgundy); color:var(--marfil);}
   .rsvp .linea{background:var(--terracota);}
-  form{
-    max-width:440px; margin:0 auto; text-align:left;
+  .rsvp-card{
+    max-width:440px; margin:0 auto; text-align:center;
     background:var(--marfil); color:var(--navy);
     border-top:3px solid var(--terracota); padding:38px 34px;
   }
-  form label{font-weight:600; font-size:0.85rem; display:block; margin:16px 0 6px; letter-spacing:0.5px;}
-  form input, form select, form textarea{
-    width:100%; padding:11px 14px; border:1px solid #ddd0bd;
-    font-family:'EB Garamond'; font-size:1rem; background:white;
-  }
-  form input:focus, form select:focus, form textarea:focus{
-    outline:none; border-color:var(--rust);
-  }
-  .radio-group{display:flex; gap:10px; margin-top:6px;}
-  .radio-group label{
-    flex:1; text-align:center; border:1px solid #ddd0bd;
-    padding:10px; font-weight:600; cursor:pointer; font-size:0.85rem;
-  }
-  .radio-group input{width:auto; display:inline; margin-right:6px;}
-  form button.btn{width:100%; margin-top:22px; padding:13px; font-size:0.85rem; text-align:center; border-color:var(--burgundy); color:var(--burgundy);}
-  form button.btn:hover{background:var(--burgundy); color:var(--marfil);}
-  .confirmacion{
-    display:none; text-align:center; font-weight:600; margin-top:16px; color:var(--rust);
-  }
+  .rsvp-card p{font-size:1.02rem; line-height:1.6; margin-bottom:22px; color:#4a4034;}
+  .rsvp-card .btn{border-color:var(--burgundy); color:var(--burgundy);}
+  .rsvp-card .btn:hover{background:var(--burgundy); color:var(--marfil);}
 
   footer{
     background:var(--navy); color:var(--marfil); padding:64px 20px; text-align:center;
@@ -203,7 +204,8 @@
 </head>
 <body>
 
-<div class="player">
+<div class="player" id="playerBox">
+  <button class="collapse-btn" id="collapseBtn" aria-label="Ocultar portada" title="Ocultar portada">▲</button>
   <div class="cover" id="playerCover">🎵</div>
   <div class="track-title" id="playerTitle">Toca play</div>
   <div class="controls-row">
@@ -271,31 +273,45 @@
   </div>
 </section>
 
+<section class="regalos">
+  <svg class="flourish" width="120" height="30" viewBox="0 0 120 30"><path d="M10,15 C30,0 50,30 60,15 C70,0 90,30 110,15" stroke="#B5541D" stroke-width="1.5" fill="none"/></svg>
+  <h2 class="reveal">Mesa de regalos</h2>
+  <div class="linea"></div>
+  <p class="regalos-intro reveal">Tu presencia es nuestro mejor regalo. Si deseas obsequiarnos algo más, aquí tienes algunas opciones — cómpralo donde prefieras y avísanos, o si prefieres, apóyanos con un donativo.</p>
+  <div class="cards">
+    <div class="card reveal">
+      <div class="icono">✦</div>
+      <h3>Nombre del regalo</h3>
+      <p>Breve descripción del artículo. Disponible en varias tiendas, elige la que prefieras:</p>
+      <div class="tiendas">
+        <a href="#" target="_blank" rel="noopener">Amazon</a>
+        <a href="#" target="_blank" rel="noopener">Mercado Libre</a>
+        <a href="#" target="_blank" rel="noopener">Liverpool</a>
+      </div>
+      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSdHSFWY5Z3L-aUbdUBuOeHLjXIILg3Fo-A2fKuAgFfrntMiSQ/viewform" target="_blank" rel="noopener">Ya lo compré</a>
+    </div>
+    <div class="card reveal">
+      <div class="icono">✦</div>
+      <h3>Donativo</h3>
+      <p>Si prefieres no elegir de la lista, con mucho cariño recibimos un donativo:</p>
+      <p class="datos-banco">
+        Banco: Nombre del banco<br>
+        A nombre de: David / Dennis<br>
+        CLABE: 0000 0000 0000 000000
+      </p>
+      <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLScygoLwne7P-EUudCrAYLeG67mQMICHCJfiUKPIQZEqErtYAg/viewform" target="_blank" rel="noopener">Ya transferí</a>
+    </div>
+  </div>
+</section>
+
 <section class="rsvp">
   <svg class="flourish" width="120" height="30" viewBox="0 0 120 30"><path d="M10,15 C30,0 50,30 60,15 C70,0 90,30 110,15" stroke="#C97C4F" stroke-width="1.5" fill="none"/></svg>
   <h2 class="reveal">Confirma tu asistencia</h2>
   <div class="linea"></div>
-  <form id="rsvpForm" class="reveal">
-    <label for="nombre">Tu nombre</label>
-    <input type="text" id="nombre" required placeholder="Nombre completo">
-
-    <label>¿Nos acompañas?</label>
-    <div class="radio-group">
-      <label><input type="radio" name="asistencia" value="si" checked> Sí, ahí estaré</label>
-      <label><input type="radio" name="asistencia" value="no"> No podré ir</label>
-    </div>
-
-    <label for="acompanantes">Número de acompañantes</label>
-    <select id="acompanantes">
-      <option>0</option><option>1</option><option>2</option><option>3</option>
-    </select>
-
-    <label for="mensaje">Mensaje para los novios (opcional)</label>
-    <textarea id="mensaje" rows="3" placeholder="Escríbeles algo bonito"></textarea>
-
-    <button type="submit" class="btn">Enviar confirmación</button>
-    <div class="confirmacion" id="confirmacion">Gracias. Tu confirmación fue registrada.</div>
-  </form>
+  <div class="rsvp-card reveal">
+    <p>Nos encantaría saber si nos acompañas. Confirma antes del 1 de noviembre de 2027.</p>
+    <a class="btn" href="https://docs.google.com/forms/d/e/1FAIpQLSej2TTAX89IpqTcovF-joqThz4m1Jx9F4HiABTH3VkXUqK8DQ/viewform" target="_blank" rel="noopener">Confirmar mi asistencia</a>
+  </div>
 </section>
 
 <footer>
@@ -332,12 +348,24 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 // ---------- Reproductor de música ----------
 // Agrega más canciones aquí (cover es opcional; si lo dejas vacío se muestra un ícono).
 const playlist = [
-  { title: "Feel It — d4vd", src: "feelit-d4vd.mp3", cover: "" }
-  // { title: "Otra canción", src: "otra-cancion.mp3", cover: "portada-otra.jpg" },
+  { title: "Feel It — d4vd", src: "feelit-d4vd.mp3", cover: "feel-it.jpg" },
+  { title: "Say Yes To Heaven — Lana Del Rey", src: "say-yes-to-heaven.mp3", cover: "say-yes-to-heaven.jpg" },
+  { title: "Those Eyes — New West", src: "Those Eyes.mp3", cover: "those-eyes.jpg" },
+  { title: "Lay Me Down — Sam Smith", src: "Lay-Me-Down.mp3", cover: "Lay-Me-Down.jpg" }
 ];
 
 let trackIndex = 0;
 let sonando = false;
+
+const playerBox = document.getElementById('playerBox');
+const collapseBtn = document.getElementById('collapseBtn');
+let compacto = false;
+collapseBtn.addEventListener('click', ()=>{
+  compacto = !compacto;
+  playerBox.classList.toggle('compacto', compacto);
+  collapseBtn.textContent = compacto ? '▼' : '▲';
+  collapseBtn.title = compacto ? 'Mostrar portada' : 'Ocultar portada';
+});
 
 const audio = document.getElementById('bgMusic');
 const playPauseBtn = document.getElementById('playPauseBtn');
@@ -409,11 +437,6 @@ volBtn.addEventListener('click', ()=>{
 audio.addEventListener('ended', ()=>{
   trackIndex = (trackIndex + 1) % playlist.length;
   cargarTrack(trackIndex, true);
-});
-
-document.getElementById('rsvpForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  document.getElementById('confirmacion').style.display = 'block';
 });
 </script>
 
