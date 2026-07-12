@@ -364,7 +364,7 @@
   <svg class="flourish" width="120" height="30" viewBox="0 0 120 30"><path d="M10,15 C30,0 50,30 60,15 C70,0 90,30 110,15" stroke="#8B9574" stroke-width="1.5" fill="none"/></svg>
   <h2 class="reveal">Código de vestimenta</h2>
   <div class="linea"></div>
-  <p class="vestimenta-intro reveal">No usar colores blancos o claros como beige, hueso, etc.<br><span class="hint">Toca cada tarjeta para ver ejemplos</span></p>
+  <p class="vestimenta-intro reveal">Formal / Cocktail<br>No usar colores blancos o claros como beige, hueso, etc.<br><span class="hint">Toca cada tarjeta para ver ejemplos</span></p>
   <div class="outfits">
 
     <figure class="outfit reveal" data-panel="panelEllos" role="button" tabindex="0" aria-expanded="false">
@@ -582,7 +582,7 @@ const playlist = [
   { title: "Lay Me Down — Sam Smith", src: "Lay-Me-Down.mp3", cover: "Lay-Me-Down.jpg" }
 ];
 
-let trackIndex = 0;
+let trackIndex = Math.floor(Math.random() * playlist.length);
 let sonando = false;
 
 const playerBox = document.getElementById('playerBox');
