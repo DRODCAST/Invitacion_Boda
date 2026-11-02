@@ -320,8 +320,8 @@
 
   /* ---------- Tarjetas de lugar (ceremonia / recepción) ---------- */
   .card-lugar{width:310px; overflow:hidden;}
-  .foto-lugar{margin:-36px -28px 22px; aspect-ratio:4/3; overflow:hidden; background:var(--terracota-claro);}
-  .foto-lugar img{width:100%; height:100%; object-fit:cover; display:block;}
+  .foto-lugar{margin:-36px -28px 22px; overflow:hidden; background:var(--terracota-claro);}
+  .foto-lugar img{width:100%; height:auto; display:block;}
   .card-lugar .acciones{display:flex; flex-direction:column; gap:10px; align-items:center; margin-top:14px;}
   .lista-estacionamientos.agenda{text-align:left;}
   .agenda-item{display:flex; gap:12px; padding:9px 0; border-bottom:1px solid rgba(107,31,39,0.15); font-size:0.98rem;}
@@ -518,7 +518,7 @@
       <div class="icono">✦</div>
       <h3>Recepción</h3>
       <p><strong>3:00 pm – 8:00 pm</strong><br>Terraza María Bonita<br>C. Ignacio Ramírez 1880, Jardines del Country, 44260 Guadalajara, Jal.</p>
-      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Terraza+Maria+Bonita+Ignacio+Ramirez+1880+Jardines+del+Country+Guadalajara" target="_blank" rel="noopener">Cómo llegar</a>
+      <a class="btn" href="https://www.google.com/maps/search/?api=1&query=C.+Ignacio+Ram%C3%ADrez+1880%2C+Jardines+del+Country%2C+44260+Guadalajara%2C+Jal." target="_blank" rel="noopener">Cómo llegar</a>
       <button type="button" class="btn btn-outline toggle-lista" data-target="listaAgenda" data-abrir="Ver agenda del evento ▸" data-cerrar="Ocultar agenda ▴" aria-expanded="false">Ver agenda del evento ▸</button>
       <div class="lista-estacionamientos agenda" id="listaAgenda">
         <div class="agenda-item"><span>3:00 – 3:30 pm</span><span>Recepción</span></div>
@@ -529,7 +529,7 @@
       </div>
       <button type="button" class="btn btn-outline toggle-lista" data-target="listaEstacionamientos" data-abrir="Ver estacionamientos cercanos ▸" data-cerrar="Ocultar estacionamientos ▴" aria-expanded="false">Ver estacionamientos cercanos ▸</button>
       <div class="lista-estacionamientos" id="listaEstacionamientos">
-        <a href="https://www.google.com/maps/search/?api=1&query=estacionamiento+cerca+de+Terraza+Maria+Bonita+Ignacio+Ramirez+1880+Guadalajara" target="_blank" rel="noopener">Estacionamientos cerca de la terraza (Google Maps)</a>
+        <a href="https://www.google.com/maps/search/?api=1&query=estacionamiento+cerca+de+C.+Ignacio+Ram%C3%ADrez+1880%2C+Jardines+del+Country%2C+Guadalajara" target="_blank" rel="noopener">Estacionamientos cerca de la terraza (Google Maps)</a>
         <a href="https://www.google.com/maps/search/?api=1&query=estacionamiento+publico+Jardines+del+Country+Guadalajara" target="_blank" rel="noopener">Estacionamientos públicos en Jardines del Country</a>
       </div>
     </div>
@@ -995,14 +995,22 @@ function abrirSobre(){
 sobreBtn.addEventListener('click', abrirSobre);
 
 // ---------- Formularios → Google Sheets (Apps Script) ----------
-// Pega aquí la URL que termina en /exec al publicar el Apps Script (ver apps-script-respuestas.gs)
-const URL_RESPUESTAS = 'PEGA_AQUI_LA_URL_DE_APPS_SCRIPT';
+// Envío directo a tus Google Forms (las respuestas llegan a la hoja de cálculo vinculada al formulario).
+// Rellena 'url' (termina en /formResponse) y los códigos 'entry.XXXX' de cada pregunta.
+const FORMS = {
+  asistencia: { url:'https://docs.google.com/forms/d/e/1FAIpQLSeGqlZDatei8asOOpe_VAIshRrtycyKtCD5-WZtD8WPk4IL5A/formResponse',
+    campos:{ nombre:'entry.1475583445', asistencia:'entry.1020996637', acompanantes:'entry.1385431673', nombresAcompanantes:'entry.2012000810', mensaje:'entry.1498030427' } },
+  donativo:   { url:'PEGA_URL_FORMRESPONSE_DONATIVO',
+    campos:{ nombre:'entry.0', mensaje:'entry.0' } }
+};
 const MAX_ACOMPANANTES = 3;
 
 async function enviarRespuesta(datos){
-  if(!URL_RESPUESTAS.startsWith('https://')) throw new Error('config');
-  const body = new URLSearchParams(datos);
-  await fetch(URL_RESPUESTAS, {method:'POST', mode:'no-cors', body});
+  const f = FORMS[datos.tipo];
+  if(!f || !f.url.startsWith('https://')) throw new Error('config');
+  const body = new URLSearchParams();
+  for(const k in f.campos){ if(datos[k] !== undefined && datos[k] !== '') body.append(f.campos[k], datos[k]); }
+  await fetch(f.url, {method:'POST', mode:'no-cors', body});
 }
 
 const formRsvp=document.getElementById('formRsvp');
