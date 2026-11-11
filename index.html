@@ -396,7 +396,7 @@
     position:fixed; inset:0; z-index:10000;
     background:radial-gradient(ellipse at 50% 35%, #3A2A3C 0%, var(--navy) 45%, #2B1A28 100%);
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; padding:16px;
-    transition:opacity 1.1s ease, visibility 1.1s, transform 1.1s ease;
+    transition:opacity .8s ease, visibility .8s;
   }
   .sobre-overlay .sobre{transition:opacity .6s ease;}
   .sobre-overlay.cerrando .sobre{opacity:0;}
@@ -459,11 +459,13 @@
   .sobre.abierto .sobre-sello, .sobre.abierto .sobre-flores, .sobre.abierto .sobre-firma, .sobre.abierto .sobre-textura{opacity:0;}
   .sobre.abierto .sobre-carta{transform:translateY(-48%) scale(1.04); box-shadow:0 14px 34px rgba(0,0,0,.35);}
   .sobre.abierto ~ .sobre-hint{opacity:0; visibility:hidden;}
+  .sobre.abierto ~ .sobre-hint.listo{visibility:visible; opacity:1; margin-top:14px;}
+  .sobre.zoom ~ .sobre-hint{visibility:hidden;}
   /* La carta sale por completo, el sobre se retira y la carta se acerca hasta abrir la invitación */
   .sobre.sale .sobre-cuerpo, .sobre.sale .sobre-frente{transform:translateY(70px) scale(.96); opacity:0; transition:transform 1s ease, opacity .9s ease;}
   .sobre.sale .sobre-carta{transform:translateY(0) scale(1.12); box-shadow:0 18px 44px rgba(0,0,0,.45); transition:transform 1.2s cubic-bezier(.4,.1,.2,1), box-shadow 1s ease;}
-  .sobre.zoom .sobre-carta{transform:translateY(0) scale(7); transition:transform 1.5s cubic-bezier(.55,0,.9,.35);}
-  .sobre-overlay.saliendo .sobre-carta{opacity:0; transition:opacity .9s ease;}
+  .sobre.zoom .sobre-carta{transform:translateY(0) scale(7); transition:transform 1s cubic-bezier(.5,0,.8,.4);}
+  .sobre-overlay.saliendo .sobre-carta{opacity:0; transition:opacity .6s ease;}
   .invitacion-abierta .sello{animation:selloEntrada 1.2s ease both;}
 
   @media (prefers-reduced-motion: reduce){
@@ -1065,7 +1067,8 @@ function abrirSobre(){
   sobreBtn.classList.add('abierto');
   iniciarMusicaAuto(); // este toque es un gesto válido: arranca la música
   setTimeout(()=> sobreBtn.classList.add('sale'), 2000);   // la carta sale completa y el sobre se retira
-  temporizadorZoom = setTimeout(hacerZoom, 7000);          // tiempo para leer la carta
+  temporizadorZoom = setTimeout(hacerZoom, 5000);          // tiempo para leer la carta
+  setTimeout(()=>{ const h=document.getElementById('sobreHint'); h.textContent='Toca para continuar'; h.classList.add('listo'); }, 3500);
 }
 let temporizadorZoom=null, zoomHecho=false;
 function hacerZoom(){
@@ -1076,8 +1079,8 @@ function hacerZoom(){
     document.body.classList.remove('sobre-activo');
     document.body.classList.add('invitacion-abierta');
     window.scrollTo(0,0);
-  }, 900);
-  setTimeout(()=>sobreOverlay.remove(), 2400);
+  }, 550);
+  setTimeout(()=>sobreOverlay.remove(), 1700);
 }
 // si ya salió la carta, un toque permite pasar antes
 sobreOverlay.addEventListener('click', ()=>{ if(sobreAbierto && sobreBtn.classList.contains('sale')) hacerZoom(); });
