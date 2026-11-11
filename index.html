@@ -52,29 +52,29 @@
   }
   .fold-tab{
     position:absolute; top:-11px; right:-11px; z-index:3;
-    width:22px; height:22px; padding:0; border:1px solid var(--marfil); border-radius:50%; cursor:pointer;
-    background:var(--terracota); color:var(--navy); font-size:0.65rem;
+    width:24px; height:24px; padding:0; border:2px solid var(--marfil); border-radius:50%; cursor:pointer;
+    background:var(--burgundy); color:var(--marfil); font-size:0.62rem; font-weight:700;
     display:flex; align-items:center; justify-content:center;
-    box-shadow:0 3px 8px rgba(0,0,0,0.3);
-    transition:transform 0.15s ease;
+    box-shadow:0 3px 9px rgba(0,0,0,0.45);
+    transition:transform 0.15s ease, background 0.15s;
   }
-  .fold-tab:hover{transform:scale(1.12);}
+  .fold-tab:hover{transform:scale(1.12); background:var(--rust);}
   .player{
-    background:var(--navy); border:1px solid var(--terracota);
-    border-radius:12px; padding:8px; width:108px; position:relative;
-    box-shadow:0 8px 22px rgba(0,0,0,0.35);
+    background:linear-gradient(180deg, #223455 0%, var(--navy) 100%); border:1px solid var(--terracota);
+    border-radius:14px; padding:8px; width:112px; position:relative;
+    box-shadow:0 10px 26px rgba(0,0,0,0.4), inset 0 0 0 3px rgba(245,237,226,0.05);
   }
   .player.oculto{display:none;}
   .img-toggle{
     position:absolute; top:-12px; left:-12px; z-index:2;
-    width:26px; height:26px; padding:0; font-size:0.7rem; font-weight:700; cursor:pointer;
+    width:24px; height:24px; padding:0; font-size:0.7rem; font-weight:700; cursor:pointer;
     color:var(--marfil); background:var(--burgundy); border:2px solid var(--marfil); border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     box-shadow:0 3px 9px rgba(0,0,0,0.5);
   }
   .img-toggle:hover{background:var(--rust);}
-  .player .img-toggle{width:26px; height:26px; font-size:0.7rem; color:var(--marfil); background:var(--burgundy); border:2px solid var(--marfil); box-shadow:0 3px 9px rgba(0,0,0,0.5);}
-  .player .img-toggle:hover{background:var(--rust);}
+  .player .img-toggle{width:24px; height:24px; font-size:0.62rem; font-weight:700; color:var(--marfil); background:var(--burgundy); border:2px solid var(--marfil); box-shadow:0 3px 9px rgba(0,0,0,0.45);}
+  .player .img-toggle:hover{background:var(--rust); border-color:var(--marfil);}
   .player.sin-imagen .cover{display:none;}
   .player .cover{
     width:100%; aspect-ratio:1; border-radius:8px;
@@ -96,16 +96,20 @@
   }
   .player .controls-row{display:flex; align-items:center; justify-content:space-between;}
   .player button{
-    background:none; border:none; color:var(--marfil); cursor:pointer;
+    background:transparent; border:1px solid rgba(201,124,79,0.55); color:var(--marfil); cursor:pointer;
     display:flex; align-items:center; justify-content:center;
-    width:22px; height:22px; font-size:0.78rem; border-radius:50%;
-    transition:background 0.15s;
+    width:26px; height:26px; padding:0; border-radius:50%;
+    transition:background 0.15s, border-color 0.15s, transform 0.15s;
   }
-  .player button:hover{background:rgba(255,255,255,0.08);}
+  .player button:hover{background:rgba(201,124,79,0.22); border-color:var(--terracota);}
+  .player button:active{transform:scale(.92);}
+  .player button svg{display:block;}
   .player .play-pause{
-    width:30px; height:30px; background:var(--terracota); color:var(--navy); font-size:0.82rem;
+    width:34px; height:34px; background:var(--terracota); color:var(--navy); border:2px solid var(--marfil);
+    box-shadow:0 3px 8px rgba(0,0,0,0.4);
   }
-  .player .play-pause:hover{background:var(--rust);}
+  .player .play-pause:hover{background:var(--rust); color:var(--marfil); border-color:var(--marfil);}
+  .player .play-pause svg{width:16px; height:16px; margin-left:1px;}
   .vol-wrapper{position:relative; padding-top:70px; margin-top:-70px;}
   .vol-popup{
     position:absolute; bottom:70px; left:50%; transform:translateX(-50%);
@@ -313,8 +317,7 @@
     .player-wrap{bottom:30px; right:14px;}
     .fold-tab{width:28px; height:28px; top:-12px; right:-12px; font-size:0.8rem;}
     .player .track-title{font-size:0.65rem;}
-    .player button{width:24px; height:24px; font-size:0.78rem;}
-    .player .img-toggle{width:26px; height:26px; font-size:0.7rem;}
+    .player .img-toggle{width:26px; height:26px;}
     .player .play-pause{width:32px; height:32px;}
     .countdown{gap:10px;}
     .countdown .box{padding:12px 14px; min-width:66px;}
@@ -421,8 +424,8 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:8px;
     font-family:'Playfair Display',serif;
   }
-  .sobre-carta small{font-family:'EB Garamond',serif; font-size:1rem; color:var(--burgundy); letter-spacing:.06em;}
-  .sobre-carta strong{font-weight:500; font-size:1.5rem; line-height:1.15; color:var(--navy);}
+  .sobre-carta small{font-family:'EB Garamond',serif; font-size:clamp(.78rem,3.3cqw,1rem); color:var(--burgundy); letter-spacing:.03em;}
+  .sobre-carta strong{font-weight:500; font-size:clamp(1.2rem,5.2cqw,1.6rem); line-height:1.15; color:var(--navy);}
   .sello-carta{width:46px; height:46px; margin-top:2px; filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));}
   .sobre-carta .adorno{color:var(--rust); font-size:1rem; letter-spacing:.4em;}
   .sobre-frente{position:absolute; left:0; top:0; width:100%; height:100%; z-index:2; display:block; overflow:visible;}
@@ -456,6 +459,11 @@
   .sobre.abierto .sobre-sello, .sobre.abierto .sobre-flores, .sobre.abierto .sobre-firma, .sobre.abierto .sobre-textura{opacity:0;}
   .sobre.abierto .sobre-carta{transform:translateY(-48%) scale(1.04); box-shadow:0 14px 34px rgba(0,0,0,.35);}
   .sobre.abierto ~ .sobre-hint{opacity:0; visibility:hidden;}
+  /* La carta sale por completo, el sobre se retira y la carta se acerca hasta abrir la invitación */
+  .sobre.sale .sobre-cuerpo, .sobre.sale .sobre-frente{transform:translateY(70px) scale(.96); opacity:0; transition:transform 1s ease, opacity .9s ease;}
+  .sobre.sale .sobre-carta{transform:translateY(0) scale(1.12); box-shadow:0 18px 44px rgba(0,0,0,.45); transition:transform 1.2s cubic-bezier(.4,.1,.2,1), box-shadow 1s ease;}
+  .sobre.zoom .sobre-carta{transform:translateY(0) scale(7); transition:transform 1.5s cubic-bezier(.55,0,.9,.35);}
+  .sobre-overlay.saliendo .sobre-carta{opacity:0; transition:opacity .9s ease;}
   .invitacion-abierta .sello{animation:selloEntrada 1.2s ease both;}
 
   @media (prefers-reduced-motion: reduce){
@@ -514,17 +522,17 @@
   <button class="fold-tab" id="foldTab" aria-label="Ocultar reproductor" title="Ocultar reproductor">✕</button>
   <div class="player" id="playerBox">
     <button class="img-toggle" id="imgToggleBtn" aria-label="Ocultar portada" title="Ocultar portada">▲</button>
-    <div class="cover" id="playerCover">🎵</div>
+    <div class="cover" id="playerCover">♪</div>
     <div class="track-title" id="playerTitle"><span id="playerTitleText">Say Yes To Heaven — Lana Del Rey</span></div>
     <div class="controls-row">
       <div class="vol-wrapper" id="volWrapper">
-        <button id="volBtn" aria-label="Silenciar">🔊</button>
+        <button id="volBtn" aria-label="Silenciar"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M4 9.5v5h3.6l4.4 3.6V5.9L7.6 9.5H4z"/><path d="M15 9a4.2 4.2 0 0 1 0 6M17.4 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
         <div class="vol-popup" id="volPopup">
           <input type="range" id="volSlider" class="vol-slider" min="0" max="100" value="60">
         </div>
       </div>
-      <button class="play-pause" id="playPauseBtn" aria-label="Reproducir">▶</button>
-      <button id="nextBtn" aria-label="Siguiente canción">⏭</button>
+      <button class="play-pause" id="playPauseBtn" aria-label="Reproducir"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.4-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z"/></svg></button>
+      <button id="nextBtn" aria-label="Siguiente canción"><svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M5 6.2v11.6a.7.7 0 0 0 1.1.6l8.2-5.8a.7.7 0 0 0 0-1.2L6.1 5.6A.7.7 0 0 0 5 6.2z"/><rect x="16.2" y="5.5" width="2.6" height="13" rx="1"/></svg></button>
     </div>
   </div>
 </div>
@@ -755,8 +763,7 @@
     <div class="card reveal">
       <div class="icono">✦</div>
       <h3>Lluvia de sobres</h3>
-      <p>Si prefieres obsequiarnos en efectivo, el día de la boda tendremos un buzón para recibir tu sobre con mucho cariño.</p>
-      <p>También puedes hacer tu aportación por depósito o transferencia bancaria:</p>
+      <p>Si lo prefieres, también puedes hacernos una transferencia bancaria:</p>
       <p class="datos-banco">
         Banco: Revolut<br>
         Titular: D. Rubio &amp; D. Rodríguez<br>
@@ -888,6 +895,7 @@ let sonando = false;
 const playerBox = document.getElementById('playerBox');
 
 // Control 1: ocultar/mostrar solo la portada (el reproductor se mantiene visible)
+const ICON_PLAY=`<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M8 5.5v13a.8.8 0 0 0 1.2.7l10.4-6.5a.8.8 0 0 0 0-1.4L9.2 4.8A.8.8 0 0 0 8 5.5z"/></svg>`, ICON_PAUSE=`<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><rect x="6.5" y="5" width="3.8" height="14" rx="1"/><rect x="13.7" y="5" width="3.8" height="14" rx="1"/></svg>`, ICON_NEXT=`<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M5 6.2v11.6a.7.7 0 0 0 1.1.6l8.2-5.8a.7.7 0 0 0 0-1.2L6.1 5.6A.7.7 0 0 0 5 6.2z"/><rect x="16.2" y="5.5" width="2.6" height="13" rx="1"/></svg>`, ICON_VOL=`<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M4 9.5v5h3.6l4.4 3.6V5.9L7.6 9.5H4z"/><path d="M15 9a4.2 4.2 0 0 1 0 6M17.4 6.6a7.6 7.6 0 0 1 0 10.8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`, ICON_MUTE=`<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="currentColor"><path d="M4 9.5v5h3.6l4.4 3.6V5.9L7.6 9.5H4z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;
 const imgToggleBtn = document.getElementById('imgToggleBtn');
 let sinImagen = false;
 imgToggleBtn.addEventListener('click', ()=>{
@@ -976,8 +984,8 @@ function cargarTrack(i, autoplay){
   if(autoplay){
     audio.play().then(()=>{
       sonando = true;
-      playPauseBtn.textContent = '⏸';
-    }).catch(()=>{ sonando = false; playPauseBtn.textContent = '▶'; });
+      playPauseBtn.innerHTML = ICON_PAUSE;
+    }).catch(()=>{ sonando = false; playPauseBtn.innerHTML = ICON_PLAY; });
   }
 }
 cargarTrack(trackIndex, false);
@@ -991,7 +999,7 @@ function iniciarMusicaAuto(){
   if(sonando) return;
   audio.play().then(()=>{
     sonando = true;
-    playPauseBtn.textContent = '⏸';
+    playPauseBtn.innerHTML = ICON_PAUSE;
     quitarListenersAuto();
   }).catch(()=>{ /* intento fallido: se mantienen los listeners activos para reintentar */ });
 }
@@ -1005,11 +1013,11 @@ EVENTOS_AUTOPLAY.forEach(ev =>
 playPauseBtn.addEventListener('click', ()=>{
   if(sonando){
     audio.pause();
-    playPauseBtn.textContent = '▶';
+    playPauseBtn.innerHTML = ICON_PLAY;
     sonando = false;
   } else {
     audio.play().then(()=>{
-      playPauseBtn.textContent = '⏸';
+      playPauseBtn.innerHTML = ICON_PAUSE;
       sonando = true;
     }).catch(()=>{
       alert('No se pudo reproducir. Verifica que el archivo de audio esté subido correctamente.');
@@ -1027,7 +1035,7 @@ volSlider.addEventListener('input', ()=>{
   const val = volSlider.value / 100;
   audio.volume = val;
   audio.muted = false;
-  volBtn.textContent = val == 0 ? '🔇' : '🔊';
+  volBtn.innerHTML = val == 0 ? ICON_MUTE : ICON_VOL;
 });
 
 volBtn.addEventListener('click', ()=>{
@@ -1035,12 +1043,12 @@ volBtn.addEventListener('click', ()=>{
     audio.muted = false;
     audio.volume = volumenPrevio || 0.6;
     volSlider.value = Math.round(audio.volume * 100);
-    volBtn.textContent = '🔊';
+    volBtn.innerHTML = ICON_VOL;
   } else {
     volumenPrevio = audio.volume;
     audio.muted = true;
     volSlider.value = 0;
-    volBtn.textContent = '🔇';
+    volBtn.innerHTML = ICON_MUTE;
   }
 });
 
@@ -1056,15 +1064,23 @@ function abrirSobre(){
   if(sobreAbierto) return; sobreAbierto=true;
   sobreBtn.classList.add('abierto');
   iniciarMusicaAuto(); // este toque es un gesto válido: arranca la música
-  setTimeout(()=> sobreOverlay.classList.add('cerrando'), 2000);   // primero se desvanece el sobre
-  setTimeout(()=>{                                                   // luego el fondo, ya sin sobre encima
+  setTimeout(()=> sobreBtn.classList.add('sale'), 2000);   // la carta sale completa y el sobre se retira
+  temporizadorZoom = setTimeout(hacerZoom, 7000);          // tiempo para leer la carta
+}
+let temporizadorZoom=null, zoomHecho=false;
+function hacerZoom(){
+  if(zoomHecho) return; zoomHecho=true; clearTimeout(temporizadorZoom);
+  sobreBtn.classList.add('sale','zoom');                    // la carta se acerca
+  setTimeout(()=>{                                          // y se abre la invitación
     sobreOverlay.classList.add('saliendo');
     document.body.classList.remove('sobre-activo');
     document.body.classList.add('invitacion-abierta');
     window.scrollTo(0,0);
-  }, 2700);
-  setTimeout(()=>sobreOverlay.remove(), 4000);
+  }, 900);
+  setTimeout(()=>sobreOverlay.remove(), 2400);
 }
+// si ya salió la carta, un toque permite pasar antes
+sobreOverlay.addEventListener('click', ()=>{ if(sobreAbierto && sobreBtn.classList.contains('sale')) hacerZoom(); });
 sobreBtn.addEventListener('click', abrirSobre);
 
 // ---------- Formularios → Google Sheets (Apps Script) ----------
